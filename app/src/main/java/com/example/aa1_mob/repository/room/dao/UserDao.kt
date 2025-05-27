@@ -19,7 +19,7 @@ interface UserDao {
     suspend fun deleteUser(user: User)
 
     @Transaction
-    @Query("SELECT * FROM user WHERE id = :userId")
+    @Query("SELECT * FROM user WHERE idUser = :userId")
     fun getUserWithJobs(userId: Int): Flow<UserWithJobs>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

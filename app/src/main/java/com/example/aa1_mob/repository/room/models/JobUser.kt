@@ -1,9 +1,10 @@
 package com.example.aa1_mob.repository.room.models
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 
-@Entity(primaryKeys = ["jobId", "userId"])
+@Entity(primaryKeys = ["idJob", "idUser"])
 data class JobUser (
-    val jobId  : Int,
-    val userId : Int
+    val idJob  : Int,
+    val idUser : Int
 )
