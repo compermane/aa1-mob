@@ -8,8 +8,8 @@ import com.example.aa1_mob.repository.room.models.User
 data class JobWithUsers(
     @Embedded val job: Job,
     @Relation(
-        parentColumn = "id",
-        entityColumn = "id",
+        parentColumn = "idJob",
+        entityColumn = "idUser",
         associateBy = Junction(JobUser::class)
     )
     val users: List<User>

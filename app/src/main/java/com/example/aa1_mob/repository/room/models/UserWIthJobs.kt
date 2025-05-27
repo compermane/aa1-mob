@@ -7,8 +7,8 @@ import androidx.room.Relation
 data class UserWithJobs(
     @Embedded val user: User,
     @Relation(
-        parentColumn = "id",
-        entityColumn = "id",
+        parentColumn = "idUser",
+        entityColumn = "idJob",
         associateBy = Junction(JobUser::class)
     )
     val jobs: List<Job>

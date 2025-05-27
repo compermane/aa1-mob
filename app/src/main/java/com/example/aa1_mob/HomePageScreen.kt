@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -23,6 +24,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,14 +36,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.aa1_mob.repository.room.models.Job
 import com.example.aa1_mob.ui.theme.Aa1mobTheme
+import com.example.aa1_mob.viewmodel.AppViewModelProvider
+import com.example.aa1_mob.viewmodel.JobViewModel
 import java.nio.file.WatchEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePageScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    jobViewModel: JobViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    LaunchedEffect(Unit) {
+        jobViewModel.insertSampleJobs()
+    }
     Scaffold (
         topBar = {
             TopAppBar(
@@ -60,7 +71,7 @@ fun HomePageScreen(
         ) {
             Spacer(modifier = Modifier.padding(vertical = 27.dp))
             SearchBar()
-            JobList()
+            JobList(jobViewModel)
         }
     }
 }
@@ -72,7 +83,7 @@ fun SearchBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White, shape = RoundedCornerShape(16.dp))
+            .background(Color.White, shape = RoundedCornerShape(21.dp))
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -86,37 +97,35 @@ fun SearchBar() {
 }
 
 @Composable
-fun JobCard() {
+fun JobCard(job : Job) {
     Card(
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(4.dp),
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp)
+            .fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(8.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = "Vaga 1",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.weight(1f)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-            }
+            Text(text = job.titulo, style = MaterialTheme.typography.titleLarge)
+            Text(text = job.empresa, style = MaterialTheme.typography.labelLarge)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = job.descricao, style = MaterialTheme.typography.bodyMedium)
         }
     }
 }
 
 @Composable
-fun JobList() {
+fun JobList(viewModel: JobViewModel) {
+    val jobList by viewModel.jobs.collectAsState()
+
     LazyColumn(
-        content = {
-            items(6) {
-                JobCard()
-            }
-        },
-        modifier = Modifier.fillMaxHeight()
-    )
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        items(jobList) { job ->
+            JobCard(job)
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+    }
 }
 
 @Preview(showBackground = true)
