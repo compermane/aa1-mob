@@ -18,4 +18,8 @@ class JobRepository(private val dao: JobDao) {
     suspend fun clearJobs() {
         dao.deleteJobs()
     }
+
+    fun searchJobByName(name: String): Flow<List<Job>> {
+        return dao.searchJobByName(name)
+    }
 }

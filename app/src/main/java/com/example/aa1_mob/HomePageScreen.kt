@@ -76,14 +76,14 @@ fun HomePageScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Spacer(modifier = Modifier.padding(vertical = 27.dp))
-            SearchBar()
+//            SearchBar()
             JobList(jobViewModel, navController)
         }
     }
 }
 
 @Composable
-fun SearchBar() {
+fun SearchBar(onSearch: (String) -> Unit) {
     var searchQuery by remember { mutableStateOf("") }
 
     Row(
@@ -95,7 +95,11 @@ fun SearchBar() {
     ) {
         TextField(
             value = searchQuery,
-            onValueChange = { searchQuery = it },
+            onValueChange = {
+                searchQuery = it
+                onSearch(it)
+                Log.i("SearchBar", "Searching for ${it}")
+                            },
             placeholder = { Text("Buscar vagas") },
             modifier = Modifier.weight(1f),
         )
@@ -121,8 +125,16 @@ fun JobCard(job : Job, onClick : () -> Unit) {
 
 @Composable
 fun JobList(viewModel: JobViewModel, navController: NavController) {
-    val jobList by viewModel.jobs.collectAsState()
+    val jobList by viewModel.filteredJobs.collectAsState()
 
+    Spacer(
+        modifier = Modifier.padding(0.dp, 21.dp)
+    )
+    Column {
+        SearchBar { query ->
+             viewModel.onSearchQueryChanged(query)
+        }
+    }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()

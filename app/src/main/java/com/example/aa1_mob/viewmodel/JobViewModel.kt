@@ -4,8 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aa1_mob.repository.JobRepository
 import com.example.aa1_mob.repository.room.models.Job
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -19,6 +23,27 @@ class JobViewModel(private val repository: JobRepository) : ViewModel() {
 
     fun insert(job : Job) = viewModelScope.launch {
         repository.insert(job)
+    }
+
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery = _searchQuery.asStateFlow()
+
+    val filteredJobs = searchQuery
+        .flatMapLatest { query ->
+            if (query.isEmpty()) {
+                repository.allJobs
+            } else {
+                repository.searchJobByName(query)
+            }
+        }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(),
+            emptyList()
+        )
+
+    fun onSearchQueryChanged(query: String) {
+        _searchQuery.value = query
     }
 
     suspend fun findById(id : Int): Job {
