@@ -1,6 +1,8 @@
 package com.example.aa1_mob
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,6 +39,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.aa1_mob.repository.room.models.Job
 import com.example.aa1_mob.ui.theme.Aa1mobTheme
 import com.example.aa1_mob.viewmodel.AppViewModelProvider
@@ -46,6 +51,7 @@ import java.nio.file.WatchEvent
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePageScreen(
+    navController: NavController,
     modifier: Modifier = Modifier,
     jobViewModel: JobViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
@@ -71,7 +77,7 @@ fun HomePageScreen(
         ) {
             Spacer(modifier = Modifier.padding(vertical = 27.dp))
             SearchBar()
-            JobList(jobViewModel)
+            JobList(jobViewModel, navController)
         }
     }
 }
@@ -97,10 +103,11 @@ fun SearchBar() {
 }
 
 @Composable
-fun JobCard(job : Job) {
+fun JobCard(job : Job, onClick : () -> Unit) {
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable{ onClick() },
         elevation = CardDefaults.cardElevation(8.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -113,7 +120,7 @@ fun JobCard(job : Job) {
 }
 
 @Composable
-fun JobList(viewModel: JobViewModel) {
+fun JobList(viewModel: JobViewModel, navController: NavController) {
     val jobList by viewModel.jobs.collectAsState()
 
     LazyColumn(
@@ -122,16 +129,11 @@ fun JobList(viewModel: JobViewModel) {
             .padding(16.dp)
     ) {
         items(jobList) { job ->
-            JobCard(job)
+            JobCard(job = job, onClick = {
+                Log.i("JobList", "clicked")
+                navController.navigate("jobdetail/${job.idJob}")
+            })
             Spacer(modifier = Modifier.height(12.dp))
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomePageScreenPreview() {
-    Aa1mobTheme {
-        HomePageScreen()
     }
 }

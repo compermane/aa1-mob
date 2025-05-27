@@ -17,7 +17,10 @@ interface JobDao {
     @Delete
     suspend fun deleteJob(job: Job)
 
+    @Query("DELETE FROM job")
+    suspend fun deleteJobs()
+
     @Transaction
     @Query("SELECT * FROM job WHERE idJob = :jobId")
-    fun getJobWithUsers(jobId: Int): Flow<JobWithUsers>
+    suspend fun getJobById(jobId: Int): Job
 }

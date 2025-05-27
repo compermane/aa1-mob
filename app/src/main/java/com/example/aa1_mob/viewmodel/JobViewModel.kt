@@ -21,16 +21,19 @@ class JobViewModel(private val repository: JobRepository) : ViewModel() {
         repository.insert(job)
     }
 
-    fun insertSampleJobs() {
+    suspend fun findById(id : Int): Job {
+        return repository.findById(id)
+    }
+
+    suspend fun insertSampleJobs() {
+        repository.clearJobs()
         viewModelScope.launch {
-            repository.insert(
-                Job(
-                    titulo = "Dev Backend",
-                    descricao = "Desenvolvimento com Spring Boot.",
-                    empresa = "Empresa X",
-                    localizacao = "São Carlos"
-                )
+            val jobs = listOf(
+                Job(titulo = "Dev Android", descricao = "Desenvolvimento mobile", empresa = "Tech Ltda", localizacao ="Remoto"),
+                Job(titulo = "Dev Backend", descricao = "APIs com Spring", empresa = "Empresa X", localizacao = "São Paulo"),
+                Job(titulo = "Dev Frontend", descricao = "React e Compose Web", empresa = "StartUp Y", localizacao = "Remoto")
             )
+            jobs.forEach { repository.insert(it) }
         }
     }
 }

@@ -10,4 +10,12 @@ class JobRepository(private val dao: JobDao) {
     suspend fun insert(job: Job) {
         dao.insertJob(job)
     }
+
+    suspend fun findById(id : Int): Job {
+        return dao.getJobById(id)
+    }
+
+    suspend fun clearJobs() {
+        dao.deleteJobs()
+    }
 }
