@@ -1,3 +1,4 @@
+// app/src/main/java/com/example/aa1_mob/App.kt
 package com.example.aa1_mob
 
 import android.app.Activity
@@ -14,13 +15,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.aa1_mob.viewmodel.JobViewModel
-import kotlinx.coroutines.launch
+import com.example.aa1_mob.presentation.ui.screens.HomePageScreen
+import com.example.aa1_mob.presentation.ui.screens.JobDetailScreen
+import com.example.aa1_mob.presentation.ui.screens.LoginScreen // Importe a LoginScreen
 
 @Composable
 fun App(
     navController : NavHostController = rememberNavController(),
-    startingRoute : String = "homepage"
+    startingRoute : String = "login" // <--- Continua como "login" para testar
 ) {
     val context = LocalContext.current
     val activity = context as? Activity
@@ -31,6 +33,19 @@ fun App(
             navController = navController,
             startDestination = startingRoute
         ) {
+            composable("login") {
+                LoginScreen(
+                    onLoginSuccess = {
+                        navController.navigate("homepage") {
+                            popUpTo("login") { inclusive = true } // Limpa o back stack
+                        }
+                    },
+                    onNavigateToRegister = {
+                        Log.d("App", "Navegar para tela de cadastro (ainda não implementado)")
+                        // Futuramente, você terá um navController.navigate("register") aqui
+                    }
+                )
+            }
             composable("homepage") {
                 HomePageScreen(navController)
             }
@@ -45,7 +60,6 @@ fun App(
                     navController.navigate("homepage")
                 })
             }
-
         }
     }
 }

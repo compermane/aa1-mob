@@ -1,6 +1,5 @@
-package com.example.aa1_mob
+package com.example.aa1_mob.presentation.ui.screens
 
-import android.print.PrintJobId
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
