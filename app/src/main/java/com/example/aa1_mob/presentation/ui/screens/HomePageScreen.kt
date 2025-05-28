@@ -136,20 +136,20 @@ fun SearchBar(onSearch: (String) -> Unit) {
             .height(56.dp),
         shape = RoundedCornerShape(21.dp),
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.Transparent,
+            focusedContainerColor   = Color.Transparent,
             unfocusedContainerColor = Color.Transparent,
-            disabledContainerColor = Color.White,
-            errorContainerColor = Color.White,
+            disabledContainerColor  = Color.White,
+            errorContainerColor     = Color.White,
 
-            focusedLabelColor = Color.Black,
+            focusedLabelColor   = Color.Black,
             unfocusedLabelColor = Color.Gray,
-            disabledLabelColor = Color.LightGray,
-            errorLabelColor = Color.Red,
+            disabledLabelColor  = Color.LightGray,
+            errorLabelColor     = Color.Red,
 
-            focusedPlaceholderColor = Color.Gray,
+            focusedPlaceholderColor   = Color.Gray,
             unfocusedPlaceholderColor = Color.Gray,
-            disabledPlaceholderColor = Color.LightGray,
-            errorPlaceholderColor = Color.Red,
+            disabledPlaceholderColor  = Color.LightGray,
+            errorPlaceholderColor     = Color.Red,
         ),
         leadingIcon = {
             Icon(

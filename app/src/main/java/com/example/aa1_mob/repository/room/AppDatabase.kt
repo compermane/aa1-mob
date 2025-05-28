@@ -8,6 +8,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase // Import para SupportSQLiteDatabase
 import com.example.aa1_mob.repository.room.dao.JobDao
+import com.example.aa1_mob.repository.room.dao.JobUserDao
 import com.example.aa1_mob.repository.room.dao.UserDao
 import com.example.aa1_mob.repository.room.models.Job
 import com.example.aa1_mob.repository.room.models.JobUser
@@ -27,6 +28,7 @@ import kotlin.reflect.KParameter
 abstract class AppDatabase : RoomDatabase() {
     abstract fun jobDao(): JobDao
     abstract fun userDao(): UserDao
+    abstract fun jobUserDao(): JobUserDao
 
     companion object {
 

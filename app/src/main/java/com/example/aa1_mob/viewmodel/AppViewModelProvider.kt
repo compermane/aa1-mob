@@ -15,13 +15,22 @@ object AppViewModelProvider {
         }
         initializer {
             LoginViewModel(
-                aa1mobApplication().container.authRepository
+                aa1mobApplication().container.authRepository,
+                aa1mobApplication()
             )
         }
         // <--- Adicione este initializer para o RegisterViewModel
         initializer {
             RegisterViewModel(
                 aa1mobApplication().container.authRepository
+            )
+        }
+
+        initializer {
+            JobApplicationViewModel(
+                aa1mobApplication().container.jobUserRepository,
+                aa1mobApplication(),
+
             )
         }
     }

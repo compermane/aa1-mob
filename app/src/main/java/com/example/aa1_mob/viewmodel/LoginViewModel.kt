@@ -1,15 +1,21 @@
 // app/src/main/java/com/example/aa1_mob/viewmodel/LoginViewModel.kt
 package com.example.aa1_mob.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aa1_mob.repository.AuthRepository // Use o AuthRepository
+import com.example.aa1_mob.repository.saveLoggedUserId
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() { // Mude o nome do parâmetro para authRepository
+class LoginViewModel(
+    private val authRepository: AuthRepository,
+    private val app: Application
+) : AndroidViewModel(app) { // Mude o nome do parâmetro para authRepository
 
     private val _email = MutableStateFlow("")
     val email: StateFlow<String> = _email.asStateFlow()
@@ -63,6 +69,7 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
                     _loginSuccess.value = true
                     _loggedInUserName.value = authenticatedUser.nome // Exemplo: salva o nome do usuário logado
                     // Aqui você pode salvar o ID do usuário e o role/nome em DataStore para persistir a sessão (R4).
+                    app.saveLoggedUserId(authenticatedUser.idUser)
                 } else {
                     _errorMessage.value = "Credenciais inválidas. Verifique seu e-mail e senha."
                 }

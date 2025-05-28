@@ -1,10 +1,20 @@
 package com.example.aa1_mob.repository
 
+import android.content.Context
+import androidx.datastore.dataStoreFile
+import androidx.datastore.preferences.core.edit
 import com.example.aa1_mob.repository.room.dao.UserDao // Use o UserDao do seu Room
 import com.example.aa1_mob.repository.room.models.User
 import org.mindrot.jbcrypt.BCrypt // Import para o BCrypt
 
-class AuthRepository(private val userDao: UserDao) { // O construtor recebe o UserDao
+class AuthRepository(private val userDao: UserDao, private val context : Context) { // O construtor recebe o UserDao
+
+    suspend fun saveLoggedUserId(userId : Int) {
+        context.dataStore.edit {
+            preferences ->
+            preferences[PreferencesKeys.USER_ID] = userId
+        }
+    }
 
     // Método para registrar um novo usuário (se você tiver uma tela de cadastro)
     suspend fun registerUser(nome: String, email: String, senhaPlain: String): Boolean {

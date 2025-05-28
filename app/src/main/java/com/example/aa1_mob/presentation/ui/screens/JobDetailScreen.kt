@@ -37,12 +37,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavController
 import com.example.aa1_mob.ui.theme.VoeTextBlack
 import com.example.aa1_mob.ui.theme.VoeYellow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JobDetailScreen(
+    navController: NavController,
     jobId: Int,
     onBack: () -> Unit,
     jobViewModel: JobViewModel = viewModel(factory = AppViewModelProvider.Factory)
@@ -142,7 +144,7 @@ fun JobDetailScreen(
 
                     Button(
                         onClick = {
-                            // implementar ação de aplicar para a vaga
+                            navController.navigate("jobApplication/${jobId}")
                         },
                         modifier = Modifier
                             .fillMaxWidth()
