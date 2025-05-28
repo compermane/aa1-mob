@@ -14,12 +14,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.aa1_mob.presentation.ui.screens.ApplyToJobScreen
 import com.example.aa1_mob.viewmodel.JobViewModel
 import kotlinx.coroutines.launch
 import com.example.aa1_mob.presentation.ui.screens.HomePageScreen
 import com.example.aa1_mob.presentation.ui.screens.JobDetailScreen
 import com.example.aa1_mob.presentation.ui.screens.LoginScreen
 import com.example.aa1_mob.presentation.ui.screens.RegisterScreen // <--- Importe a RegisterScreen
+import com.example.aa1_mob.viewmodel.JobApplicationViewModel
 
 @Composable
 fun App(
@@ -74,10 +76,26 @@ fun App(
                 arguments = listOf(navArgument("jobId") { type = NavType.IntType })
             ) { backStackEntry ->
                 val jobId = backStackEntry.arguments?.getInt("jobId") ?: 0
-                JobDetailScreen(jobId = jobId, onBack = {
+                JobDetailScreen(navController= navController, jobId = jobId, onBack = {
                     Log.i("App", "Going back to homepage")
                     navController.navigate("homepage")
                 })
+            }
+
+            composable(
+                route = "jobApplication/{jobId}",
+                arguments = listOf(navArgument("jobId")  { type = NavType.IntType })
+            ){
+                backStackEntry ->
+                val jobId  = backStackEntry.arguments!!.getInt("jobId")
+
+                ApplyToJobScreen(
+                    jobId = jobId,
+                    onBack =  {
+                        navController.navigate("jobdetail/${jobId}")
+                    },
+                    navController = navController
+                )
             }
         }
     }

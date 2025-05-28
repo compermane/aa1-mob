@@ -1,5 +1,6 @@
 package com.example.aa1_mob.presentation.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -7,9 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -31,10 +36,15 @@ import com.example.aa1_mob.viewmodel.JobViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavController
+import com.example.aa1_mob.ui.theme.VoeTextBlack
+import com.example.aa1_mob.ui.theme.VoeYellow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JobDetailScreen(
+    navController: NavController,
     jobId: Int,
     onBack: () -> Unit,
     jobViewModel: JobViewModel = viewModel(factory = AppViewModelProvider.Factory)
@@ -45,53 +55,108 @@ fun JobDetailScreen(
         job = jobViewModel.findById(jobId)
     }
 
-    if(job == null) {
+    if (job == null) {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFF2F2F2)),
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
         }
-    }
-    else {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(job!!.titulo) },
-                    navigationIcon = {
-                        IconButton(onClick = onBack) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                        }
-                    }
-                )
-            }
-        ) { innerPadding ->
-            Column(
+    } else {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFF2F2F2))
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Card(
                 modifier = Modifier
-                    .padding(innerPadding)
-                    .padding(16.dp)
-                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                shape = RoundedCornerShape(24.dp),
+                elevation = CardDefaults.cardElevation(8.dp)
             ) {
-                Text(text = job!!.empresa, style = MaterialTheme.typography.titleLarge)
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(text = "Descrição da Vaga", style = MaterialTheme.typography.titleLarge)
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(text = job!!.descricao)
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(text = job!!.localizacao)
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Button(
-                    onClick = {
-                        // implementar ação de aplicar para a vaga
-                        // mudar o banco de dados etc
-                    },
+                Column(
                     modifier = Modifier
+                        .padding(24.dp)
                         .fillMaxWidth()
-                        .height(50.dp)
                 ) {
-                    Text("Aplicar")
+                    IconButton(
+                        onClick = onBack,
+                        modifier = Modifier.align(Alignment.Start)
+                    ) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = job!!.titulo,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Color.Black
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = job!!.empresa,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color.Gray
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = "Descrição da Vaga",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Color.Black
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = job!!.descricao,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.DarkGray
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = "Localização",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Color.Black
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = job!!.localizacao,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.DarkGray
+                    )
+
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    Button(
+                        onClick = {
+                            navController.navigate("jobApplication/${jobId}")
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = VoeYellow)
+                    ) {
+                        Text(
+                            text  = "Aplicar",
+                            color = VoeTextBlack
+                            )
+                    }
                 }
             }
         }
