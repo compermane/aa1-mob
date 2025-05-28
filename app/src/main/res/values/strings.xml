@@ -16,5 +16,12 @@
     <string name="apply_button">Candidatar-se</string>
     <string name="jobtree_description">JobTree is the #1 destination to find and list incredible remote jobs.</string>
 
+    <string name="register_title">Cadastre-se</string>
+    <string name="register_description">Junte-se à nossa comunidade e encontre seu próximo emprego remoto!</string>
+    <string name="name_label">Nome Completo</string>
+    <string name="confirm_password_label">Confirmar Senha</string>
+    <string name="register_button">Cadastrar</string>
+    <string name="already_have_account_login">Já tem uma conta? Faça login</string>
+
 
 </resources>

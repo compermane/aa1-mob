@@ -1,4 +1,3 @@
-// app/src/main/java/com/example/aa1_mob/App.kt
 package com.example.aa1_mob
 
 import android.app.Activity
@@ -15,14 +14,17 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.aa1_mob.viewmodel.JobViewModel
+import kotlinx.coroutines.launch
 import com.example.aa1_mob.presentation.ui.screens.HomePageScreen
 import com.example.aa1_mob.presentation.ui.screens.JobDetailScreen
-import com.example.aa1_mob.presentation.ui.screens.LoginScreen // Importe a LoginScreen
+import com.example.aa1_mob.presentation.ui.screens.LoginScreen
+import com.example.aa1_mob.presentation.ui.screens.RegisterScreen // <--- Importe a RegisterScreen
 
 @Composable
 fun App(
     navController : NavHostController = rememberNavController(),
-    startingRoute : String = "login" // <--- Continua como "login" para testar
+    startingRoute : String = "login"
 ) {
     val context = LocalContext.current
     val activity = context as? Activity
@@ -37,12 +39,29 @@ fun App(
                 LoginScreen(
                     onLoginSuccess = {
                         navController.navigate("homepage") {
-                            popUpTo("login") { inclusive = true } // Limpa o back stack
+                            popUpTo("login") { inclusive = true }
                         }
                     },
                     onNavigateToRegister = {
-                        Log.d("App", "Navegar para tela de cadastro (ainda não implementado)")
-                        // Futuramente, você terá um navController.navigate("register") aqui
+                        navController.navigate("register") // <--- Adicione a navegação para a tela de cadastro
+                    }
+                )
+            }
+            // <--- Adicione a rota para a tela de cadastro
+            composable("register") {
+                RegisterScreen(
+                    onRegistrationSuccess = {
+                        // Após o cadastro, você pode navegar para a tela de login
+                        // ou diretamente para a home, dependendo da sua lógica.
+                        // O mais comum é voltar para o login e pedir para o usuário fazer login.
+                        navController.navigate("login") {
+                            popUpTo("register") { inclusive = true } // Limpa a tela de cadastro do back stack
+                        }
+                    },
+                    onNavigateToLogin = {
+                        navController.navigate("login") {
+                            popUpTo("register") { inclusive = true }
+                        }
                     }
                 )
             }
