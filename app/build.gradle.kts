@@ -42,6 +42,8 @@ android {
 
 dependencies {
 
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("org.mindrot:jbcrypt:0.4")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -54,6 +56,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.animation.core.lint)
+    implementation(libs.androidx.espresso.core)
 
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")

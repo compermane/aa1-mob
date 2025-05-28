@@ -24,4 +24,13 @@ interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun applyToJob(crossRef: JobUser)
+
+    // Buscar usuário por email para autenticação
+    @Query("SELECT * FROM user WHERE email = :email LIMIT 1")
+    suspend fun getUserByEmail(email: String): User?
+
+    // Para verificar se já existe algum usuário cadastrado no banco de dados local
+    @Query("SELECT COUNT(*) FROM user")
+    fun getUserCount(): Flow<Int>
+
 }

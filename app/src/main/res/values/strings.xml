@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">aa1-mob</string>
+
+    <string name="login_title">Login</string>
+    <string name="welcome_back">Bem-vindo(a) de volta!</string>
+    <string name="email_label">E-mail</string>
+    <string name="password_label">Senha</string>
+    <string name="show_password">Mostrar senha</string>
+    <string name="hide_password">Esconder senha</string>
+    <string name="login_button">Entrar</string>
+    <string name="dont_have_account_register">Não tem uma conta? Cadastre-se</string>
+
+    <string name="job_list_title">Vagas Disponíveis</string>
+    <string name="job_description_label">Descrição:</string>
+    <string name="job_location_label">Localização:</string>
+    <string name="apply_button">Candidatar-se</string>
+    <string name="jobtree_description">JobTree is the #1 destination to find and list incredible remote jobs.</string>
+
+
 </resources>
