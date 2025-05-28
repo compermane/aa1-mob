@@ -1,5 +1,6 @@
 package com.example.aa1_mob.repository.room.dao
 
+import android.R
 import androidx.room.*
 import com.example.aa1_mob.repository.room.models.Job
 import com.example.aa1_mob.repository.room.models.JobWithUsers
@@ -19,6 +20,9 @@ interface JobDao {
 
     @Query("DELETE FROM job")
     suspend fun deleteJobs()
+
+    @Query("SELECT * FROM job WHERE titulo LIKE '%' || :name || '%'")
+    fun searchJobByName(name: String): Flow<List<Job>>
 
     @Transaction
     @Query("SELECT * FROM job WHERE idJob = :jobId")
