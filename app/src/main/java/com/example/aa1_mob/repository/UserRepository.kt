@@ -3,6 +3,7 @@ package com.example.aa1_mob.repository
 import android.content.Context
 import android.util.Log
 import androidx.datastore.preferences.core.edit
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aa1_mob.repository.retrofit.LoginRequest
 import com.example.aa1_mob.repository.retrofit.RegisterRequest
 import com.example.aa1_mob.repository.retrofit.RetrofitInstance
@@ -10,10 +11,12 @@ import com.example.aa1_mob.repository.retrofit.UserApiInterface
 import com.example.aa1_mob.repository.retrofit.UserData
 import com.example.aa1_mob.repository.room.dao.UserDao // Use o UserDao do seu Room
 import com.example.aa1_mob.repository.room.models.User
+import kotlinx.coroutines.flow.compose
+import kotlinx.coroutines.flow.first
 import org.mindrot.jbcrypt.BCrypt // Import para o BCrypt
 
 class UserRepository(private val userDao : UserDao, private val context : Context,
-                     val useTestApi : Boolean = false) { // O construtor recebe o UserDao
+                     val useTestApi : Boolean = false) {
 
     private var client : UserApiInterface
 
@@ -32,17 +35,20 @@ class UserRepository(private val userDao : UserDao, private val context : Contex
     suspend fun register(name: String, email: String, password: String): UserData? {
         return try {
             val response = RetrofitInstance.api.register(
-                RegisterRequest(name, email, password)
+                RegisterRequest(name = name, email = email, password = password)
             )
 
-            Log.i("UserRepository", "Response: ${response}")
-            Log.i("UserRepository", "isSuccessful: ${response.isSuccessful}")
-            Log.i("UserRepository", "code: ${response.code()}")
-            Log.i("UserRepository", "message: ${response.message()}")
-            Log.i("UserRepository", "errorBody: ${response.errorBody()?.string()}")
-
-            Log.i("UserRepository [register]", "${response}")
             if (response.isSuccessful) {
+                response.body()?.let {
+                    userDataFromApi ->
+                    val userLocal = User(
+                        nome = userDataFromApi.name,
+                        senha = userDataFromApi.password,
+                        email = userDataFromApi.email
+                    )
+                    Log.i("UserRepository", "foi até aqui")
+                    userDao.insertUser(userLocal)
+                }
                 response.body()
             } else {
                 null
@@ -54,11 +60,25 @@ class UserRepository(private val userDao : UserDao, private val context : Contex
         }
     }
 
+    suspend fun getAllUsersOnce(): List<User> = userDao.getAllUsers().first()
+
     suspend fun login(email: String, senha: String): UserData? {
         return try {
             val response = RetrofitInstance.api.login(LoginRequest(email, senha))
             if (response.isSuccessful) {
-                response.body()
+                response.body()?.let {
+                    userDataFromApi ->
+                    val emailData = userDataFromApi.email
+                    val senhaData = userDataFromApi.password
+
+                    Log.i("UserRepository", "foi até aqui ${emailData}, ${senhaData}")
+                    val user = userDao.getUserByEmailAndSenha(emailData, senhaData)
+                    if(user != null) {
+                        Log.i("UserRepository", "agora veio até aqui")
+                        return UserData(user.idUser, user.email, user.senha, user.nome)
+                    }
+                    null
+                }
             } else {
                 null
             }

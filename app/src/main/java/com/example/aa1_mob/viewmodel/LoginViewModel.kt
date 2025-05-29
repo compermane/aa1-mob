@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.aa1_mob.R
 import com.example.aa1_mob.repository.UserRepository // Use o AuthRepository
 import com.example.aa1_mob.repository.retrofit.UserData
+import com.example.aa1_mob.repository.saveLoggedUserId
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -59,6 +60,7 @@ class LoginViewModel(
         }
 
         viewModelScope.launch {
+            Log.i("DEBUG", "${userRepository.getAllUsersOnce()}")
             val result = userRepository.login(email.value, password.value)
             _user.value = result
 
@@ -67,6 +69,7 @@ class LoginViewModel(
             Log.i("LoginViewModel [login]", "${result}")
 
             if(result != null) {
+                app.saveLoggedUserId(result.userId!!)
                 _loginSuccess.value = true
             } else {
                 _errorMessage.value = app.getString(R.string.invalid_credentials)

@@ -1,6 +1,7 @@
 package com.example.aa1_mob.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aa1_mob.repository.JobUserRepository
@@ -41,6 +42,7 @@ class UserProfileViewModel(
                 if (userId != null) {
                     val profile = jobUserRepository.getUserWithJobs(userId)
                     _userProfile.value = profile
+                    Log.i("UserProfileViewModel", "BRUH: ${profile.jobs}")
                 } else {
                     _errorMessage.value = "Nenhum usuário logado encontrado."
                     _userProfile.value = null

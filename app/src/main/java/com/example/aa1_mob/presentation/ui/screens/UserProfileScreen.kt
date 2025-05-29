@@ -58,11 +58,10 @@ fun UserProfileScreen(
                 .background(Color.White)
                 .padding(paddingValues)
         ) {
-            // Fundo do topo (similar ao LoginScreen)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp) // Altura para o topo
+                    .height(200.dp)
                     .background(
                         brush = androidx.compose.ui.graphics.Brush.verticalGradient(
                             colors = listOf(VoeBlueLight, Color.White),
@@ -201,13 +200,5 @@ fun UserProfileScreen(
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun UserProfileScreenPreview() {
-    Aa1mobTheme {
-        UserProfileScreen(onBack = {})
     }
 }

@@ -87,6 +87,7 @@ class RegisterViewModel(
             _isLoading.value = false
             Log.i("RegisterViewModel [register]", "${result}")
             if (result != null) {
+                Log.i("RegisterViewModel", "agora veio até aqui")
                 _registrationSuccess.value = true
             } else {
                 _errorMessage.value = app.getString(R.string.registration_error)

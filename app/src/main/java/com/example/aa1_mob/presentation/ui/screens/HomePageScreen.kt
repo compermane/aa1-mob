@@ -15,15 +15,20 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar // <--- IMPORTANTE: Adicione esta importação!
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -35,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource // <--- Importe para stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +49,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.aa1_mob.R
 import com.example.aa1_mob.repository.room.models.Job
 import com.example.aa1_mob.ui.theme.Aa1mobTheme
 import com.example.aa1_mob.ui.theme.VoeBlueLight
@@ -58,57 +65,73 @@ fun HomePageScreen(
     modifier: Modifier = Modifier,
     jobViewModel: JobViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    LaunchedEffect(Unit) {
-        jobViewModel.insertSampleJobs()
-    }
+//    LaunchedEffect(Unit) {
+//        jobViewModel.insertSampleJobs()
+//    }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.job_tree),
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                        color = VoeTextBlack
+                    )
+                },
+                actions = {
+                    IconButton(onClick = { navController.navigate("userProfile") }) {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = stringResource(id = R.string.profile_title),
+                            tint = VoeTextBlack
+                        )
+                    }
+                },
+
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = VoeBlueLight,
+                    titleContentColor = VoeTextBlack,
+                    actionIconContentColor = VoeTextBlack
+                )
+            )
+        }
+    ) { innerPadding ->
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.35f)
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(VoeBlueLight, Color.White),
-                        startY = 0f,
-                        endY = Float.POSITIVE_INFINITY
-                    )
-                )
-        )
-
-        Column(
-            modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .background(Color.White)
+                .padding(innerPadding)
         ) {
-            Spacer(modifier = Modifier.height(64.dp))
-
-            Text(
-                text  = "JobTree",
-                style = MaterialTheme.typography.headlineLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize   = 42.sp
-                ),
-                color     = VoeTextBlack,
-                textAlign = TextAlign.Center
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.25f)
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(VoeBlueLight, Color.White),
+                            startY = 0f,
+                            endY = Float.POSITIVE_INFINITY
+                        )
+                    )
             )
 
-            Text(
-                text      = "Encontre sua próxima oportunidade!",
-                style     = MaterialTheme.typography.bodyLarge,
-                color     = VoeTextGrey,
-                textAlign = TextAlign.Center,
-                modifier  = Modifier.padding(horizontal = 32.dp)
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(R.string.find_next_opportunity),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = VoeTextGrey,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp)
+                )
 
-            Spacer(modifier = Modifier.height(32.dp))
-
-            JobList(jobViewModel, navController)
+                JobList(jobViewModel, navController)
+            }
         }
     }
 }
@@ -126,7 +149,7 @@ fun SearchBar(onSearch: (String) -> Unit) {
         },
         placeholder = {
             Text(
-                text = "Buscar vagas",
+                text = stringResource(R.string.search_positions),
                 color = Color.Gray
             )
         },
@@ -210,14 +233,5 @@ fun JobList(viewModel: JobViewModel, navController: NavController) {
             })
             Spacer(modifier = Modifier.height(12.dp))
         }
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun HomePageScreenPreview() {
-    Aa1mobTheme {
-        val navController = rememberNavController()
-        HomePageScreen(navController = navController)
     }
 }
