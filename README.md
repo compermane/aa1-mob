@@ -44,8 +44,9 @@ cd SEU_REPOSITORIO # Navegue até a pasta do voce clonou o projeto</code></pre>
         <p>O Android Studio deve automaticamente começar a sincronizar o projeto com o Gradle e baixar todas as dependências necessárias.</p>
      </li>
     <li><strong>Crie um Emulador (AVD) ou Conecte um Dispositivo:</strong>
-        <li>Para criar um emulador: No Android Studio, vá em <code>Tools &gt; Device Manager</code> (ou <code>AVD Manager</code>). Clique em <code>Create Device</code>, escolha um perfil de hardware (ex: <code>Pixel 5</code> ou <code>Pixel 6</code>) e baixe uma imagem de sistema (API 33 ou 34 são boas escolhas). Siga os passos para finalizar a criação.</li>
-    </li>
+        <ul>
+            <li>Para criar um emulador: No Android Studio, vá em <code>Tools &gt; Device Manager</code> (ou <code>AVD Manager</code>). Clique em <code>Create Device</code>, escolha um perfil de hardware e baixe uma imagem de sistema. Siga os passos para finalizar a criação.</li>
+        </ul>
     <li><strong>Execute o Aplicativo:</strong>
         <ul>
              <li>Clique no botão <code>Run</code> (o ícone de triângulo verde) na barra de ferramentas.</li>
