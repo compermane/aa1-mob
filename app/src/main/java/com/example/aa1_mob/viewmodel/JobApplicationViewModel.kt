@@ -22,8 +22,8 @@ class JobApplicationViewModel(
 
     fun applyToJob(jobId: Int) {
         viewModelScope.launch {
-            // Use firstOrNull() para garantir que o userId seja obtido antes de prosseguir
             val userId = loggedUserId.firstOrNull()
+            Log.i("JobApplicationViewModel", "userId ${userId}, jobId ${jobId}")
             if (userId != null) {
                 Log.d("JobAppViewModel", "Attempting to apply: UserId=$userId, JobId=$jobId")
                 try {
