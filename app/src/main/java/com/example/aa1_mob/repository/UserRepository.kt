@@ -54,7 +54,7 @@ class UserRepository(private val userDao : UserDao, private val context : Contex
                 null
             }
         } catch (e: Exception) {
-            Log.e("UserRepository", "BRUH ", e)
+//            Log.e("UserRepository", "BRUH ", e)
             e.printStackTrace()
             null
         }
