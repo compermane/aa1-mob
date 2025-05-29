@@ -3,16 +3,15 @@ package com.example.aa1_mob.viewmodel
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aa1_mob.repository.JobUserRepository
 import com.example.aa1_mob.repository.getLoggedUserId
-import com.example.aa1_mob.repository.room.dao.JobUserDao
 import com.example.aa1_mob.repository.room.models.Job
 import com.example.aa1_mob.repository.room.models.JobUser
 import com.example.aa1_mob.repository.room.models.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.firstOrNull
 
 class JobApplicationViewModel(
     private val repository: JobUserRepository,
@@ -23,11 +22,18 @@ class JobApplicationViewModel(
 
     fun applyToJob(jobId: Int) {
         viewModelScope.launch {
-            loggedUserId.collect { userId ->
-                if (userId != null) {
-                    Log.i("JobApplicationViewModel", "Applying to job on user id ${userId} and job id ${jobId}")
+            // Use firstOrNull() para garantir que o userId seja obtido antes de prosseguir
+            val userId = loggedUserId.firstOrNull()
+            if (userId != null) {
+                Log.d("JobAppViewModel", "Attempting to apply: UserId=$userId, JobId=$jobId")
+                try {
                     repository.applyToJob(JobUser(jobId, userId))
+                    Log.d("JobAppViewModel", "Application successful for UserId=$userId, JobId=$jobId")
+                } catch (e: Exception) {
+                    Log.e("JobAppViewModel", "Error applying to job: ${e.message}", e)
                 }
+            } else {
+                Log.w("JobAppViewModel", "Cannot apply: User not logged in (userId is null).")
             }
         }
     }
