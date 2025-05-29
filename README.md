@@ -1,12 +1,8 @@
-<p align="center">
-  <img src="ff.PNG" alt="Captura de Tela do JobTree" width="600"/>
-</p>
-
 <h1>🚀 JobTree - Seu Próximo Emprego Começa Aqui!</h1>
 
 <h2>🌟 Sobre o Projeto</h2>
 
-<p>O <strong>JobTree</strong> é uma plataforma simplificada para conectar candidatos a vagas de emprego. Com uma interface de usuário moderna e responsiva construída em Jetpack Compose, o aplicativo permite que os usuários busquem por vagas, visualizem detalhes e se candidatem de forma eficiente. Todos os dados, incluindo informações de vagas, usuários e candidaturas, são persistidos localmente utilizando o Room Database.</p>
+<p>O <strong>JobTree</strong> é uma plataforma que conecta candidatos a vagas de emprego. Com uma interface de usuário moderna construída em Jetpack Compose, o aplicativo permite que os usuários busquem por vagas, visualizem detalhes e se candidatem de forma eficiente. Todos os dados, incluindo informações de vagas, usuários e candidaturas, são persistidos localmente utilizando o Room Database.</p>
 
 <h3>✨ Funcionalidades Principais</h3>
 <ul>
