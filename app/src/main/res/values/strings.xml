@@ -30,6 +30,11 @@
     <string name="upload_cv">Upload CV</string>
     <string name="submit_candidature">Submeter Candidatura</string>
     <string name="cover_letter">Escreva sua carta de admissão</string>
+    <string name="invalid_credentials">Email ou Senha inválidos</string>
+    <string name="fill_all_the_fields">Por favor, preencha todos os campos.</string>
+    <string name="passwords_do_not_match">As senhas não coincidem.</string>
+    <string name="email_already_registred">Email já cadastrado.</string>
+    <string name="registration_error">Erro no cadastro.</string>
 
     <string name="profile_title">Meu Perfil</string>
     <string name="back_button_desc">Voltar</string>

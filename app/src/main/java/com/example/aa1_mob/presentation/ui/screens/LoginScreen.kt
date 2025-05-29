@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.aa1_mob.R
 import com.example.aa1_mob.viewmodel.AppViewModelProvider
 import com.example.aa1_mob.viewmodel.LoginViewModel
@@ -55,15 +56,11 @@ fun LoginScreen(
         }
     }
 
-    // A cor de fundo principal será o branco puro, e o gradiente estará em uma caixa sobre ele
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White) // Fundo branco puro
+            .background(Color.White)
     ) {
-        // Topo com gradiente azul e forma orgânica
-        // Para a forma orgânica, precisaríamos de um custom shape ou uma imagem SVG.
-        // Por enquanto, vamos simular com um gradiente e uma forma simples.
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -75,14 +72,8 @@ fun LoginScreen(
                         endY = Float.POSITIVE_INFINITY
                     )
                 )
-            // Para a forma curva, é mais complexo. Você pode usar um Path ou uma imagem SVG.
-            // Como alternativa, podemos fazer uma borda inferior curva se você tiver uma imagem
-            // de fundo para o topo que já contenha a curva.
-            // Por simplicidade, vamos fazer uma forma retangular com gradiente por agora.
-            // Se a curva for crucial, avise para explorarmos CustomPainter ou Modifier.clip(CustomShape).
         )
 
-        // Conteúdo centralizado
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -183,14 +174,14 @@ fun LoginScreen(
 
             // Botão Login
             Button(
-                onClick = viewModel::login,
-                enabled = !isLoading,
-                colors = ButtonDefaults.buttonColors(containerColor = VoeYellow), // Cor amarela do Figma
-                shape = RoundedCornerShape(16.dp), // Cantos arredondados
+                onClick  = viewModel::login,
+                enabled  = !isLoading,
+                colors   = ButtonDefaults.buttonColors(containerColor = VoeYellow),
+                shape    = RoundedCornerShape(16.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp) // Altura fixa para o botão
-                    .padding(horizontal = 16.dp) // Para alinhar com o Card acima
+                    .height(56.dp)
+                    .padding(horizontal = 16.dp)
             ) {
                 if (isLoading) {
                     CircularProgressIndicator(
@@ -215,13 +206,5 @@ fun LoginScreen(
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    Aa1mobTheme {
-        LoginScreen(onLoginSuccess = {}, onNavigateToRegister = {})
     }
 }

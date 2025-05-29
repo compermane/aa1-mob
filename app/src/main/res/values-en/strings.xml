@@ -28,4 +28,8 @@
     <string name="upload_cv">Upload CV</string>
     <string name="submit_candidature">Apply to Job</string>
     <string name="cover_letter">Write your cover letter</string>
+    <string name="invalid_credentials">Invalid email or password</string>
+    <string name="fill_all_the_fields">Please, fill in all the fields.</string>
+    <string name="passwords_do_not_match">Passwords do not match.</string>
+    <string name="email_already_registred">Email already registred.</string>
 </resources>

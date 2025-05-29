@@ -1,6 +1,5 @@
 package com.example.aa1_mob.viewmodel
 
-import androidx.lifecycle.ViewModelProvider.Factory
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -15,13 +14,14 @@ object AppViewModelProvider {
         }
         initializer {
             LoginViewModel(
-                aa1mobApplication().container.authRepository,
+                aa1mobApplication().container.userRepository,
                 aa1mobApplication()
             )
         }
         initializer {
             RegisterViewModel(
-                aa1mobApplication().container.authRepository
+                aa1mobApplication().container.userRepository,
+                aa1mobApplication()
             )
         }
         initializer {
