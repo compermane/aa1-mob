@@ -23,5 +23,12 @@
     <string name="register_button">Cadastrar</string>
     <string name="already_have_account_login">Já tem uma conta? Faça login</string>
 
+    <string name="profile_title">Meu Perfil</string>
+    <string name="back_button_desc">Voltar</string>
+    <string name="profile_picture_desc">Foto de perfil do usuário</string>
+    <string name="applied_jobs_title">Minhas Candidaturas</string>
+    <string name="no_applied_jobs">Você ainda não se candidatou a nenhuma vaga.</string>
+    <string name="profile_load_error">Não foi possível carregar o perfil do usuário. Tente novamente mais tarde.</string>
+
 
 </resources>

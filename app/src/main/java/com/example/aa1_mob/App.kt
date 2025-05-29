@@ -4,9 +4,11 @@ import android.app.Activity
 import android.util.Log
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aa1_mob.ui.theme.Aa1mobTheme
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -20,8 +22,10 @@ import kotlinx.coroutines.launch
 import com.example.aa1_mob.presentation.ui.screens.HomePageScreen
 import com.example.aa1_mob.presentation.ui.screens.JobDetailScreen
 import com.example.aa1_mob.presentation.ui.screens.LoginScreen
-import com.example.aa1_mob.presentation.ui.screens.RegisterScreen // <--- Importe a RegisterScreen
-import com.example.aa1_mob.viewmodel.JobApplicationViewModel
+import com.example.aa1_mob.presentation.ui.screens.RegisterScreen
+import com.example.aa1_mob.presentation.ui.screens.UserProfileScreen // <--- Importe a UserProfileScreen
+import com.example.aa1_mob.viewmodel.AppViewModelProvider
+import com.example.aa1_mob.viewmodel.UserProfileViewModel
 
 @Composable
 fun App(
@@ -45,19 +49,15 @@ fun App(
                         }
                     },
                     onNavigateToRegister = {
-                        navController.navigate("register") // <--- Adicione a navegação para a tela de cadastro
+                        navController.navigate("register")
                     }
                 )
             }
-            // <--- Adicione a rota para a tela de cadastro
             composable("register") {
                 RegisterScreen(
                     onRegistrationSuccess = {
-                        // Após o cadastro, você pode navegar para a tela de login
-                        // ou diretamente para a home, dependendo da sua lógica.
-                        // O mais comum é voltar para o login e pedir para o usuário fazer login.
                         navController.navigate("login") {
-                            popUpTo("register") { inclusive = true } // Limpa a tela de cadastro do back stack
+                            popUpTo("register") { inclusive = true }
                         }
                     },
                     onNavigateToLogin = {
@@ -76,7 +76,7 @@ fun App(
                 arguments = listOf(navArgument("jobId") { type = NavType.IntType })
             ) { backStackEntry ->
                 val jobId = backStackEntry.arguments?.getInt("jobId") ?: 0
-                JobDetailScreen(navController= navController, jobId = jobId, onBack = {
+                JobDetailScreen(jobId = jobId, navController = navController, onBack = { // Passe navController aqui
                     Log.i("App", "Going back to homepage")
                     navController.navigate("homepage")
                 })
@@ -84,23 +84,40 @@ fun App(
 
             composable(
                 route = "jobApplication/{jobId}",
-                arguments = listOf(navArgument("jobId")  { type = NavType.IntType })
-            ){
-                backStackEntry ->
-                val jobId  = backStackEntry.arguments!!.getInt("jobId")
-
+                arguments = listOf(navArgument("jobId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val jobId = backStackEntry.arguments?.getInt("jobId") ?: 0
+                // Você já tinha ApplyToJobScreen no seu código, só adicionei a rota
                 ApplyToJobScreen(
                     jobId = jobId,
-                    onBack =  {
-                        navController.navigate("jobdetail/${jobId}")
-                    },
+                    onBack = { navController.popBackStack() }, // Volta para a tela anterior
                     navController = navController
+                )
+            }
+
+            // <--- Adicione a rota para a tela de perfil do usuário
+            composable("userProfile") { backStackEntry ->
+                val userProfileViewModel: UserProfileViewModel = viewModel(factory = AppViewModelProvider.Factory)
+                // Chama loadUserProfile sempre que a rota "userProfile" é acessada
+                // Usamos a key 'Unit' se queremos que seja chamado uma vez na composição inicial,
+                // ou 'backStackEntry' se queremos que seja re-executado quando a tela retorna à pilha
+                // e é recomposta. Para um perfil, 'backStackEntry' é mais robusto para refreshes.
+                LaunchedEffect(key1 = backStackEntry.lifecycle.currentState) {
+                    // Isso garante que loadUserProfile é chamado quando a tela está resumed
+                    if (backStackEntry.lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                        userProfileViewModel.loadUserProfile()
+                    }
+                }
+                UserProfileScreen(
+                    onBack = {
+                        navController.popBackStack() // Volta para a tela anterior (provavelmente HomePage)
+                    },
+                    viewModel = userProfileViewModel // Passa a instância do ViewModel
                 )
             }
         }
     }
 }
-
 @Preview(showBackground = true)
 @Composable
 fun AppPreview() {
