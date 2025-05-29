@@ -1,4 +1,4 @@
-<h1>🚀 JobTree - Seu Próximo Emprego Começa Aqui!</h1>
+<h1>🚀 JobTree </h1>
 
 <h2>🌟 Sobre o Projeto</h2>
 
