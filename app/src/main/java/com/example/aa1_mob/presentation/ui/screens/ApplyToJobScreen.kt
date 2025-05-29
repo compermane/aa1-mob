@@ -34,11 +34,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.aa1_mob.R
 import com.example.aa1_mob.ui.theme.Aa1mobTheme
 import com.example.aa1_mob.ui.theme.VoeTextBlack
 import com.example.aa1_mob.ui.theme.VoeYellow
@@ -61,7 +63,7 @@ fun ApplyToJobScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Submeter candidatura") },
+                title = { Text(stringResource(R.string.submit_candidature)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -80,7 +82,7 @@ fun ApplyToJobScreen(
             OutlinedTextField(
                 value = fullName,
                 onValueChange = { fullName = it },
-                label = { Text("Nome completo") },
+                label = { Text(stringResource(R.string.name_label)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
@@ -91,7 +93,7 @@ fun ApplyToJobScreen(
             OutlinedTextField(
                 value = portfolioLink,
                 onValueChange = { portfolioLink = it },
-                label = { Text("Link para portfólio") },
+                label = { Text(stringResource(R.string.link_to_portfolio)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
@@ -118,13 +120,13 @@ fun ApplyToJobScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         imageVector = Icons.Default.CloudUpload,
-                        contentDescription = "Upload CV",
+                        contentDescription = stringResource(R.string.upload_cv),
                         tint = Color(0xFF00BFA6),
                         modifier = Modifier.size(32.dp)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        "Upload d CV",
+                        stringResource(R.string.upload_cv),
                         color = Color(0xFF00BFA6),
                         style = MaterialTheme.typography.bodyMedium
                     )
@@ -136,7 +138,7 @@ fun ApplyToJobScreen(
             OutlinedTextField(
                 value = message,
                 onValueChange = { message = it },
-                label = { Text("Escreva uma carta de admissão") },
+                label = { Text(stringResource(R.string.cover_letter)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(120.dp),
@@ -161,7 +163,7 @@ fun ApplyToJobScreen(
                     contentColor = Color.White
                 )
             ) {
-                Text("Submeter candidatura", color = VoeTextBlack)
+                Text(stringResource(R.string.submit_candidature), color = VoeTextBlack)
             }
         }
     }

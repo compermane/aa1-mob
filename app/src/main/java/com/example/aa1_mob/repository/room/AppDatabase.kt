@@ -47,8 +47,6 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
-    // Callback para popular o banco de dados com um usuário de teste
-    // Isso garante que você sempre terá um usuário para testar o login
     private class AppDatabaseCallback(private val context: Context) : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
@@ -56,8 +54,6 @@ abstract class AppDatabase : RoomDatabase() {
                 CoroutineScope(Dispatchers.IO).launch {
                     val userDao = database.userDao()
                     val jobDao = database.jobDao()
-                    // Verifica se já existe algum usuário antes de inserir
-                    // Usamos .first() para coletar o primeiro valor do Flow e checar a contagem
                     val userCount = userDao.getUserCount().first()
                     if (userCount == 0) {
                         // Crie um usuário de teste apenas se não houver nenhum
@@ -70,14 +66,6 @@ abstract class AppDatabase : RoomDatabase() {
                         userDao.insertUser(testUser)
                         Log.d("AppDatabase", "Usuário de teste inserido: ${testUser.email}")
                     }
-
-                    // Você pode inserir vagas de exemplo aqui se ainda não estiver fazendo isso
-                    // Exemplo:
-                    // val jobCount = jobDao.getAllJobs().first().size // Verifica se já tem vagas
-                    // if (jobCount == 0) {
-                    //    jobDao.insertJob(Job(titulo = "Desenvolvedor Android", empresa = "Google", descricao = "Vaga para dev Android", localizacao = "São Paulo"))
-                    //    jobDao.insertJob(Job(titulo = "Estágio Front-end", empresa = "Meta", descricao = "Estágio em React", localizacao = "Belo Horizonte"))
-                    // }
                 }
             }
         }

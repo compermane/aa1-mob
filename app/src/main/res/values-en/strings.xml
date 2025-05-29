@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">aa1-mob</string>
+    <string name="login_title">Login</string>
+    <string name="welcome_back">Welcome back!</string>
+    <string name="email_label">E-mail</string>
+    <string name="password_label">Password</string>
+    <string name="show_password">ShowPassword</string>
+    <string name="hide_password">Hide Password</string>
+    <string name="login_button">Login</string>
+    <string name="dont_have_account_register">Don\'t have an account? Sign up</string>
+    <string name="job_list_title">Available Positions</string>
+    <string name="job_description_label">Description</string>
+    <string name="job_location_label">Location</string>
+    <string name="apply_button">Apply</string>
+    <string name="jobtree_description">JobTree is the #1 destination to find and list incredible remote jobs.</string>
+    <string name="register_title">Sign-up</string>
+    <string name="register_description">Join our community</string>
+    <string name="name_label">Full Name</string>
+    <string name="confirm_password_label">Confirm Password</string>
+    <string name="register_button">Register</string>
+    <string name="already_have_account_login">Already have an account? Sign in</string>
+    <string name="go_back_label">Go back</string>
+    <string name="search_positions">Search positions</string>
+    <string name="job_tree">JobTree</string>
+    <string name="find_next_opportunity">Find your next opportunity!</string>
+    <string name="link_to_portfolio">Link to your portfolio</string>
+    <string name="upload_cv">Upload CV</string>
+    <string name="submit_candidature">Apply to Job</string>
+    <string name="cover_letter">Write your cover letter</string>
+    <string name="invalid_credentials">Invalid email or password</string>
+    <string name="fill_all_the_fields">Please, fill in all the fields.</string>
+    <string name="passwords_do_not_match">Passwords do not match.</string>
+    <string name="email_already_registred">Email already registred.</string>
+</resources>

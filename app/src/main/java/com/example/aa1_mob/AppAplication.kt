@@ -3,7 +3,7 @@ package com.example.aa1_mob
 import android.app.Application
 import android.content.Context
 import android.util.Log
-import com.example.aa1_mob.repository.AuthRepository
+import com.example.aa1_mob.repository.UserRepository
 import com.example.aa1_mob.repository.JobRepository
 import com.example.aa1_mob.repository.JobUserRepository
 import com.example.aa1_mob.repository.room.AppDatabase
@@ -37,8 +37,8 @@ class AppContainer(private val context: Context) {
     }
 
     // Adicione o AuthRepository, passando o userDao do AppDatabase
-    val authRepository : AuthRepository by lazy { // Mude de userRepository para authRepository
-        AuthRepository(
+    val userRepository : UserRepository by lazy { // Mude de userRepository para authRepository
+        UserRepository(
             AppDatabase.getDatabase(context).userDao(),
             context = context
         )

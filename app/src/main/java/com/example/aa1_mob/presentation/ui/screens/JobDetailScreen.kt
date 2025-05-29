@@ -37,7 +37,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.example.aa1_mob.R
 import com.example.aa1_mob.ui.theme.VoeTextBlack
 import com.example.aa1_mob.ui.theme.VoeYellow
 
@@ -89,7 +91,7 @@ fun JobDetailScreen(
                         onClick = onBack,
                         modifier = Modifier.align(Alignment.Start)
                     ) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.go_back_label))
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
@@ -111,7 +113,7 @@ fun JobDetailScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "Descrição da Vaga",
+                        text = stringResource(id = R.string.job_description_label),
                         style = MaterialTheme.typography.titleMedium,
                         color = Color.Black
                     )
@@ -127,7 +129,7 @@ fun JobDetailScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "Localização",
+                        text = stringResource(R.string.job_location_label),
                         style = MaterialTheme.typography.titleMedium,
                         color = Color.Black
                     )
@@ -153,7 +155,7 @@ fun JobDetailScreen(
                         colors = ButtonDefaults.buttonColors(containerColor = VoeYellow)
                     ) {
                         Text(
-                            text  = "Aplicar",
+                            text  = stringResource(R.string.apply_button),
                             color = VoeTextBlack
                             )
                     }

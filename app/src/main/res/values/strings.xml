@@ -14,7 +14,7 @@
     <string name="job_description_label">Descrição:</string>
     <string name="job_location_label">Localização:</string>
     <string name="apply_button">Candidatar-se</string>
-    <string name="jobtree_description">JobTree is the #1 destination to find and list incredible remote jobs.</string>
+    <string name="jobtree_description">JobTree é a opção n°1 para encontrar trabalhos remotos incríveis.</string>
 
     <string name="register_title">Cadastre-se</string>
     <string name="register_description">Junte-se à nossa comunidade e encontre seu próximo emprego remoto!</string>
@@ -22,6 +22,19 @@
     <string name="confirm_password_label">Confirmar Senha</string>
     <string name="register_button">Cadastrar</string>
     <string name="already_have_account_login">Já tem uma conta? Faça login</string>
+    <string name="go_back_label">Voltar</string>
+    <string name="search_positions">Buscar vagas</string>
+    <string name="job_tree">JobTree</string>
+    <string name="find_next_opportunity">Encontre sua próxima oportunidade!</string>
+    <string name="link_to_portfolio">Link para seu portfólio</string>
+    <string name="upload_cv">Upload CV</string>
+    <string name="submit_candidature">Submeter Candidatura</string>
+    <string name="cover_letter">Escreva sua carta de admissão</string>
+    <string name="invalid_credentials">Email ou Senha inválidos</string>
+    <string name="fill_all_the_fields">Por favor, preencha todos os campos.</string>
+    <string name="passwords_do_not_match">As senhas não coincidem.</string>
+    <string name="email_already_registred">Email já cadastrado.</string>
+    <string name="registration_error">Erro no cadastro.</string>
 
     <string name="profile_title">Meu Perfil</string>
     <string name="back_button_desc">Voltar</string>

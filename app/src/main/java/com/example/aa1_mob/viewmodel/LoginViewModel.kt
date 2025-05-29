@@ -2,18 +2,20 @@
 package com.example.aa1_mob.viewmodel
 
 import android.app.Application
+import android.util.Log
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.aa1_mob.repository.AuthRepository // Use o AuthRepository
-import com.example.aa1_mob.repository.saveLoggedUserId
+import com.example.aa1_mob.R
+import com.example.aa1_mob.repository.UserRepository // Use o AuthRepository
+import com.example.aa1_mob.repository.retrofit.UserData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository,
     private val app: Application
 ) : AndroidViewModel(app) { // Mude o nome do parâmetro para authRepository
 
@@ -32,10 +34,8 @@ class LoginViewModel(
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
 
-    // Para armazenar o usuário logado (nome, role, etc.), se necessário para a UI
-    private val _loggedInUserName = MutableStateFlow<String?>(null)
-    val loggedInUserName: StateFlow<String?> = _loggedInUserName.asStateFlow()
-
+    private val _user = MutableStateFlow<UserData?>(null)
+    val user: StateFlow<UserData?> = _user
 
     fun onEmailChange(newEmail: String) {
         _email.value = newEmail
@@ -53,31 +53,23 @@ class LoginViewModel(
         _loginSuccess.value = false
 
         if (_email.value.isBlank() || _password.value.isBlank()) {
-            _errorMessage.value = "Por favor, preencha todos os campos."
+            _errorMessage.value = app.getString(R.string.fill_all_the_fields)
             _isLoading.value = false
             return
         }
 
         viewModelScope.launch {
-            try {
-                // Chama o método authenticateUser do AuthRepository
-                val authenticatedUser = authRepository.authenticateUser(
-                    email = _email.value,
-                    senhaPlain = _password.value // Use senhaPlain conforme o AuthRepository
-                )
-                if (authenticatedUser != null) {
-                    _loginSuccess.value = true
-                    _loggedInUserName.value = authenticatedUser.nome // Exemplo: salva o nome do usuário logado
-                    // Aqui você pode salvar o ID do usuário e o role/nome em DataStore para persistir a sessão (R4).
-                    app.saveLoggedUserId(authenticatedUser.idUser)
-                } else {
-                    _errorMessage.value = "Credenciais inválidas. Verifique seu e-mail e senha."
-                }
-            } catch (e: Exception) {
-                _errorMessage.value = "Erro ao tentar fazer login: ${e.localizedMessage ?: "Erro desconhecido"}"
-                e.printStackTrace() // Para debug
-            } finally {
-                _isLoading.value = false
+            val result = userRepository.login(email.value, password.value)
+            _user.value = result
+
+            _isLoading.value = false
+
+            Log.i("LoginViewModel [login]", "${result}")
+
+            if(result != null) {
+                _loginSuccess.value = true
+            } else {
+                _errorMessage.value = app.getString(R.string.invalid_credentials)
             }
         }
     }

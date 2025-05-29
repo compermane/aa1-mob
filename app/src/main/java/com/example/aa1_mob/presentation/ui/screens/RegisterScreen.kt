@@ -246,11 +246,3 @@ fun RegisterScreen(
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun RegisterScreenPreview() {
-    Aa1mobTheme {
-        RegisterScreen(onRegistrationSuccess = {}, onNavigateToLogin = {})
-    }
-}
